@@ -8,4 +8,7 @@ export type Coin = {
   market_cap_rank: number;
   price_change_percentage_24h: number;
   total_volume: number;
+  sparkline_in_7d: { 
+    price: number[];
+  };
 };

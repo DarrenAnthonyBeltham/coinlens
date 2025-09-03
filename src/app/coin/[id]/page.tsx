@@ -1,4 +1,4 @@
-import CoinChart from "@/components/CoinChart";
+import CoinDetailClient from "@/components/CoinDataClient";
 import { getCoinDetails, getCoinOHLC } from "@/lib/coingecko";
 import Image from "next/image";
 
@@ -20,7 +20,7 @@ function StatCard({ label, value, className = "" }: { label: string; value: stri
 export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
   const [details, ohlcData] = await Promise.all([
     getCoinDetails(params.id),
-    getCoinOHLC(params.id, 30), 
+    getCoinOHLC(params.id, 30),
   ]);
 
   if (!details) {
@@ -44,8 +44,6 @@ export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
   return (
     <main className="min-h-screen bg-black text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        
-        {/* Header Section */}
         <div className="flex items-center space-x-4">
           <Image src={details.image.large} alt={details.name} width={64} height={64} />
           <div>
@@ -61,7 +59,12 @@ export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
           </div>
         </div>
 
-        <CoinChart data={ohlcData} coinName={details.name} />
+        {/* Use the new interactive component here */}
+        <CoinDetailClient
+          coinId={params.id}
+          initialChartData={ohlcData}
+          coinName={details.name}
+        />
 
         <div>
           <h2 className="text-2xl font-bold mb-4">Key Statistics</h2>
@@ -75,12 +78,11 @@ export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
 
         <div>
           <h2 className="text-2xl font-bold mb-4">About {details.name}</h2>
-          <div 
+          <div
             className="prose prose-invert max-w-none text-gray-300"
             dangerouslySetInnerHTML={{ __html: details.description.en }}
           />
         </div>
-
       </div>
     </main>
   );

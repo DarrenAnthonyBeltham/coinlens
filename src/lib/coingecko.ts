@@ -3,7 +3,7 @@ import { Coin } from "./types";
 export async function getMarketData(): Promise<Coin[]> {
   try {
     const response = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false",
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=true", 
       { next: { revalidate: 60 } }
     );
 
@@ -88,6 +88,23 @@ export async function getCoinOHLC(coinId: string, days: number = 30) {
       low: d[3],
       close: d[4],
     }));
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function searchCoins(query: string) {
+  if (!query) return [];
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/search?query=${query}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to search for coins");
+    }
+    const data = await response.json();
+    return data.coins; 
   } catch (error) {
     console.error(error);
     return [];
