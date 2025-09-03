@@ -3,7 +3,8 @@ import { Coin } from "./types";
 export async function getMarketData(): Promise<Coin[]> {
   try {
     const response = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false",
+      { next: { revalidate: 60 } }
     );
 
     if (!response.ok) {
@@ -20,7 +21,9 @@ export async function getMarketData(): Promise<Coin[]> {
 
 export async function getGlobalMarketData() {
   try {
-    const response = await fetch("https://api.coingecko.com/api/v3/global");
+    const response = await fetch("https://api.coingecko.com/api/v3/global", {
+      next: { revalidate: 60 },
+    });
     if (!response.ok) {
       throw new Error("Failed to fetch global market data");
     }
@@ -35,7 +38,8 @@ export async function getGlobalMarketData() {
 export async function getCoinChartData(coinId: string) {
   try {
     const response = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`,
+      { next: { revalidate: 60 } }
     );
     if (!response.ok) {
       throw new Error("Failed to fetch chart data");
@@ -44,6 +48,45 @@ export async function getCoinChartData(coinId: string) {
     return data.prices.map((price: [number, number]) => ({
       timestamp: price[0],
       price: price[1],
+    }));
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getCoinDetails(coinId: string) {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`,
+      { next: { revalidate: 60 } }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch coin details");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getCoinOHLC(coinId: string, days: number = 30) {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc?vs_currency=usd&days=${days}`,
+      { next: { revalidate: 60 } }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch OHLC data");
+    }
+    const data = await response.json();
+    return data.map((d: number[]) => ({
+      time: d[0] / 1000,
+      open: d[1],
+      high: d[2],
+      low: d[3],
+      close: d[4],
     }));
   } catch (error) {
     console.error(error);
