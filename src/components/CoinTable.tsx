@@ -3,7 +3,7 @@
 import { Coin } from "@/lib/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import SparklineChart from "./SparkLineChart";
+import SparklineChart from "./SparklineChart";
 
 type CoinTableProps = {
   coins: Coin[];
