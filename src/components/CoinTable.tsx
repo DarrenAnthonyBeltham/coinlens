@@ -51,33 +51,33 @@ export default function CoinTable({ coins, requestSort, sortConfig }: CoinTableP
     return null;
   };
 
-  const headers: { key: keyof Coin; label: string; sortable: boolean }[] = [
-    { key: "market_cap_rank", label: "#", sortable: true },
+  const headers = [
+    { key: "market_cap_rank", label: "#", sortable: true, className: "hidden sm:table-cell" },
     { key: "name", label: "Coin", sortable: true },
     { key: "current_price", label: "Price", sortable: true },
-    { key: "price_change_percentage_24h", label: "24h %", sortable: true },
-    { key: "market_cap", label: "Market Cap", sortable: true },
+    { key: "price_change_percentage_24h", label: "24h %", sortable: true, className: "hidden md:table-cell" },
+    { key: "market_cap", label: "Market Cap", sortable: true, className: "hidden lg:table-cell" },
   ];
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full">
+      <table className="w-full">
         <thead>
           <tr className="border-b border-t border-slate-700/50">
-            <th className="px-4 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12"></th>
+            <th className="px-2 sm:px-4 py-4 w-12"></th>
             {headers.map((header) => (
               <th
                 key={header.key}
-                className={`px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider ${header.sortable ? 'cursor-pointer' : ''}`}
-                onClick={() => header.sortable && requestSort(header.key)}
+                className={`px-2 sm:px-4 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider ${header.sortable ? 'cursor-pointer' : ''} ${header.className || ''}`}
+                onClick={() => header.sortable && requestSort(header.key as keyof Coin)}
               >
                 <div className="flex items-center">
                   {header.label}
-                  {header.sortable && getSortIcon(header.key)}
+                  {header.sortable && getSortIcon(header.key as keyof Coin)}
                 </div>
               </th>
             ))}
-            <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Last 7 Days</th>
+            <th className="px-2 sm:px-4 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider hidden xl:table-cell">Last 7 Days</th>
           </tr>
         </thead>
         <tbody>
@@ -85,68 +85,32 @@ export default function CoinTable({ coins, requestSort, sortConfig }: CoinTableP
             const isPriceUp = coin.price_change_percentage_24h >= 0;
             const isFavorite = watchlist.includes(coin.id);
 
+            const formatCurrency = (value: number) => {
+              return value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: coin.current_price < 1 ? 6 : 2 });
+            };
+
             return (
-              <tr
-                key={coin.id}
-                className="border-b border-slate-800 hover:bg-slate-800/50 group"
-              >
-                <td className="px-4 py-5">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleCoinInWatchlist(coin.id);
-                    }}
-                    className="opacity-50 group-hover:opacity-100 transition-opacity"
-                  >
+              <tr key={coin.id} className="border-b border-slate-800 hover:bg-slate-800/50 group">
+                <td className="px-2 sm:px-4 py-5">
+                  <button onClick={(e) => { e.stopPropagation(); toggleCoinInWatchlist(coin.id); }} className="opacity-50 group-hover:opacity-100 transition-opacity">
                     <StarIcon isFavorite={isFavorite} />
                   </button>
                 </td>
-                <td
-                  onClick={() => router.push(`/coin/${coin.id}`)}
-                  className="px-6 py-5 whitespace-nowrap text-sm text-slate-300 cursor-pointer"
-                >
-                  {coin.market_cap_rank}
-                </td>
-                <td
-                  onClick={() => router.push(`/coin/${coin.id}`)}
-                  className="px-6 py-5 whitespace-nowrap text-sm text-white cursor-pointer"
-                >
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 text-sm text-slate-300 cursor-pointer hidden sm:table-cell">{coin.market_cap_rank}</td>
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 text-sm text-white cursor-pointer">
                   <div className="flex items-center">
-                    <Image src={coin.image} alt={coin.name} width={28} height={28} className="mr-4" />
+                    <Image src={coin.image} alt={coin.name} width={28} height={28} className="mr-4 flex-shrink-0" />
                     <div>
                       <div className="font-semibold">{coin.name}</div>
-                      <div className="text-slate-400 uppercase">{coin.symbol}</div>
+                      <div className="text-slate-400 uppercase hidden sm:block">{coin.symbol}</div>
                     </div>
                   </div>
                 </td>
-                <td
-                  onClick={() => router.push(`/coin/${coin.id}`)}
-                  className="px-6 py-5 whitespace-nowrap text-sm text-slate-300 cursor-pointer"
-                  suppressHydrationWarning={true}
-                >
-                  ${coin.current_price.toLocaleString()}
-                </td>
-                <td
-                  onClick={() => router.push(`/coin/${coin.id}`)}
-                  className={`px-6 py-5 whitespace-nowrap text-sm font-semibold cursor-pointer ${isPriceUp ? "text-green-400" : "text-red-400"}`}
-                >
-                  {coin.price_change_percentage_24h.toFixed(2)}%
-                </td>
-                <td
-                  onClick={() => router.push(`/coin/${coin.id}`)}
-                  className="px-6 py-5 whitespace-nowrap cursor-pointer"
-                >
-                  <SparklineChart
-                    data={coin.sparkline_in_7d.price}
-                    color={isPriceUp ? "#16a34a" : "#dc2626"}
-                  />
-                </td>
-                <td
-                  onClick={() => router.push(`/coin/${coin.id}`)}
-                  className="px-6 py-5 whitespace-nowrap text-sm text-slate-300 cursor-pointer"
-                  suppressHydrationWarning={true}
-                >
-                  ${coin.market_cap.toLocaleString()}
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 whitespace-nowrap text-sm text-slate-300 cursor-pointer" suppressHydrationWarning={true}>{formatCurrency(coin.current_price)}</td>
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className={`px-2 sm:px-4 py-5 whitespace-nowrap text-sm font-semibold cursor-pointer ${isPriceUp ? "text-green-400" : "text-red-400"} hidden md:table-cell`}>{coin.price_change_percentage_24h.toFixed(2)}%</td>
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 whitespace-nowrap text-sm text-slate-300 cursor-pointer hidden lg:table-cell" suppressHydrationWarning={true}>{formatCurrency(coin.market_cap)}</td>
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 whitespace-nowrap cursor-pointer hidden xl:table-cell">
+                  <SparklineChart data={coin.sparkline_in_7d.price} color={isPriceUp ? "#16a34a" : "#dc2626"} />
                 </td>
               </tr>
             );

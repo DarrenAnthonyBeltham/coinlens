@@ -1,5 +1,3 @@
-import type { NextConfig } from "next";
-
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -8,6 +6,12 @@ const nextConfig = {
         hostname: "coin-images.coingecko.com",
         port: "",
         pathname: "/coins/images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.cryptocompare.com",
+        port: "",
+        pathname: "/news/**",
       },
     ],
   },

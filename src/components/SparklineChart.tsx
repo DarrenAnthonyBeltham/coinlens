@@ -36,5 +36,5 @@ export default function SparklineChart({ data, color }: SparklineChartProps) {
     },
   ];
 
-  return <Chart options={options} series={series} type="line" height={60} width={150} />;
+  return <Chart options={options} series={series} type="line" height={60} width={120} />;
 }

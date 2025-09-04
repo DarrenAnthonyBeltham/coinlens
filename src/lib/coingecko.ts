@@ -125,3 +125,37 @@ export async function getCoinsByIds(ids: string) {
     return [];
   }
 }
+
+export async function getTrendingCoins() {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/search/trending",
+      { next: { revalidate: 300 } }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch trending coins");
+    }
+    const data = await response.json();
+    return data.coins;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getHistoricalPrice(coinId: string, date: string) {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/history?date=${date}`,
+      { next: { revalidate: 86400 } } 
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch historical data");
+    }
+    const data = await response.json();
+    return data.market_data?.current_price?.usd || null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

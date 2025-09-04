@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useTransition } from "react";
 import CoinChart from "./CoinChart";
 import Skeleton from "./Skeleton";
+import HistoricalDataTable from "./HistoricalDataTable";
 
 type Timeframe = {
   days: number;
@@ -59,27 +60,45 @@ export default function CoinDetailClient({
     }`;
 
   return (
-    <div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-        <h2 className="text-xl font-bold text-white">{coinName} Chart ({selectedTimeframe})</h2>
-        <div className="flex space-x-2">
-          {timeframes.map((tf) => (
-            <button
-              key={tf.days}
-              onClick={() => setDays(tf.days)}
-              className={buttonStyle(days === tf.days)}
-            >
-              {tf.label}
-            </button>
-          ))}
+    <>
+      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl">
+        <div className="p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <h2 className="text-xl font-semibold tracking-wider text-slate-300">{coinName} Chart ({selectedTimeframe})</h2>
+            <div className="flex space-x-2">
+              {timeframes.map((tf) => (
+                <button
+                  key={tf.days}
+                  onClick={() => setDays(tf.days)}
+                  className={buttonStyle(days === tf.days)}
+                >
+                  {tf.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {isPending ? (
+            <Skeleton className="h-[400px] w-full" />
+          ) : (
+            <CoinChart data={chartData} coinName={coinName} />
+          )}
         </div>
       </div>
-      
-      {isPending ? (
-        <Skeleton className="h-[400px] w-full" />
-      ) : (
-        <CoinChart data={chartData} coinName={coinName} />
-      )}
-    </div>
+
+      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl">
+        <div className="p-6">
+          <h2 className="text-xl font-semibold tracking-wider text-slate-300">Historical Data</h2>
+        </div>
+        
+        {isPending ? (
+          <div className="p-6">
+            <Skeleton className="h-64 w-full" />
+          </div>
+        ) : (
+          <HistoricalDataTable data={chartData} />
+        )}
+      </div>
+    </>
   );
 }

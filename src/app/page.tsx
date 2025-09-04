@@ -1,9 +1,11 @@
 import FeaturedChart from "@/components/FeaturedChart";
 import HomepageClient from "@/components/HomepageClient";
+import TrendingWidget from "@/components/TrendingWidget";
 import {
   getCoinChartData,
   getGlobalMarketData,
   getMarketData,
+  getTrendingCoins,
 } from "@/lib/coingecko";
 
 function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -15,10 +17,11 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
 }
 
 export default async function Home() {
-  const [coins, globalData, chartData] = await Promise.all([
-    getMarketData(),
+  const [coins, globalData, chartData, trendingCoins] = await Promise.all([
+    getMarketData(1),
     getGlobalMarketData(),
     getCoinChartData("bitcoin"),
+    getTrendingCoins(),
   ]);
 
   const marketCap =
@@ -53,7 +56,15 @@ export default async function Home() {
           <FeaturedChart data={chartData} coinName="Bitcoin" />
         </Card>
 
-        <HomepageClient initialCoins={coins} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+             <HomepageClient initialCoins={coins} />
+          </div>
+          
+          <div className="lg:col-span-1">
+            <TrendingWidget trendingCoins={trendingCoins} />
+          </div>
+        </div>
       </div>
     </main>
   );
