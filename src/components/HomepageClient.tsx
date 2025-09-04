@@ -89,7 +89,7 @@ export default function HomepageClient({ initialCoins }: HomepageClientProps) {
   };
 
   const buttonStyle = (isActive: boolean) =>
-    `px-4 py-2 text-sm rounded-md transition-colors ${
+    `px-4 py-2 text-sm rounded-md transition-all duration-200 ease-in-out transform active:scale-95 ${
       isActive
         ? "bg-blue-600 text-white"
         : "bg-slate-800 text-slate-300 hover:bg-slate-700"

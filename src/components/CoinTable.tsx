@@ -90,7 +90,7 @@ export default function CoinTable({ coins, requestSort, sortConfig }: CoinTableP
             };
 
             return (
-              <tr key={coin.id} className="border-b border-slate-800 hover:bg-slate-800/50 group">
+              <tr key={coin.id} className="border-b border-slate-800 hover:bg-slate-800/50 group transition-colors duration-200">
                 <td className="px-2 sm:px-4 py-5">
                   <button onClick={(e) => { e.stopPropagation(); toggleCoinInWatchlist(coin.id); }} className="opacity-50 group-hover:opacity-100 transition-opacity">
                     <StarIcon isFavorite={isFavorite} />
