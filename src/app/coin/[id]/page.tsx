@@ -4,12 +4,6 @@ import InvestmentCalculator from "@/components/InvestmentCalculator";
 import { getCoinDetails, getCoinOHLC } from "@/lib/coingecko";
 import Image from "next/image";
 
-type CoinDetailPageProps = {
-  params: {
-    id: string;
-  };
-};
-
 function StatCard({ label, value, className = "" }: { label: string; value: string | number; className?: string }) {
   return (
     <div className="bg-gray-900 p-4 rounded-lg">
@@ -19,7 +13,7 @@ function StatCard({ label, value, className = "" }: { label: string; value: stri
   );
 }
 
-export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
+export default async function CoinDetailPage({ params }: { params: { id: string } }) {
   const [details, ohlcData] = await Promise.all([
     getCoinDetails(params.id),
     getCoinOHLC(params.id, 30),
