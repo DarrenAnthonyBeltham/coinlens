@@ -13,6 +13,7 @@ export async function GET(request: Request) {
     const data = await searchCoins(query);
     return NextResponse.json(data);
   } catch (error) {
+    console.error("API Error in /api/search:", error);
     return NextResponse.json({ error: "Failed to search" }, { status: 500 });
   }
 }

@@ -77,7 +77,7 @@ export default function InvestmentCalculator({ coinId, currentPrice }: Calculato
   return (
     <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6">
       <h2 className="text-xl font-semibold tracking-wider text-slate-300 mb-4">
-        "What If?" Calculator
+        &quot;What If?&quot; Calculator
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
         <div>

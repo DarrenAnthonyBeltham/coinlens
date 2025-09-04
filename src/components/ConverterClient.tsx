@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { Coin } from "@/lib/types";
 import CustomDropdown from "./CustomDropdown";
 
+type ConverterOption = Pick<Coin, "id" | "name" | "current_price">;
+
 export default function ConverterClient({ coins }: { coins: Coin[] }) {
-  const usdOption = { id: "usd", name: "United States Dollar", symbol: "usd", current_price: 1, image: "" };
-  const allOptions = [usdOption, ...coins];
+  const usdOption: ConverterOption = { id: "usd", name: "United States Dollar", current_price: 1 };
+  const allOptions: ConverterOption[] = [usdOption, ...coins];
 
   const [amount1, setAmount1] = useState<string>("1");
   const [amount2, setAmount2] = useState<string>("");
-  const [coin1, setCoin1] = useState<any>(coins.find(c => c.id === 'bitcoin') || allOptions[1]);
-  const [coin2, setCoin2] = useState<any>(usdOption);
+  const [coin1, setCoin1] = useState<ConverterOption>(coins.find(c => c.id === 'bitcoin') || allOptions[1]);
+  const [coin2, setCoin2] = useState<ConverterOption>(usdOption);
 
   useEffect(() => {
     if (coin1 && coin2) {
@@ -31,7 +33,7 @@ export default function ConverterClient({ coins }: { coins: Coin[] }) {
 
   const handleStep = (direction: 'up' | 'down') => {
     const currentValue = parseFloat(amount1) || 0;
-    const newValue = direction === 'up' ? currentValue + 1 : Math.max(0, currentValue - 1); 
+    const newValue = direction === 'up' ? currentValue + 1 : Math.max(0, currentValue - 1);
     setAmount1(String(newValue));
   };
   

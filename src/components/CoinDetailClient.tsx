@@ -4,6 +4,7 @@ import React, { useState, useEffect, useTransition } from "react";
 import CoinChart from "./CoinChart";
 import Skeleton from "./Skeleton";
 import HistoricalDataTable from "./HistoricalDataTable";
+import { OhlcData } from "@/lib/types";
 
 type Timeframe = {
   days: number;
@@ -20,7 +21,7 @@ const timeframes: Timeframe[] = [
 
 type CoinDetailClientProps = {
   coinId: string;
-  initialChartData: any[];
+  initialChartData: OhlcData[];
   coinName: string;
 };
 

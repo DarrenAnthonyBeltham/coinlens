@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const coinId = searchParams.get("coinId");
-    const date = searchParams.get("date"); 
+    const date = searchParams.get("date");
 
     if (!coinId || !date) {
       return NextResponse.json({ error: "Missing coinId or date parameter" }, { status: 400 });
@@ -18,6 +18,7 @@ export async function GET(request: Request) {
     
     return NextResponse.json({ price });
   } catch (error) {
+    console.error("API Error in /api/historical:", error);
     return NextResponse.json({ error: "Failed to fetch historical data" }, { status: 500 });
   }
 }

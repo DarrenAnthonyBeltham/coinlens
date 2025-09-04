@@ -2,9 +2,12 @@
 
 import { useState, useRef } from "react";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
-import { Coin } from "@/lib/types";
 
-type Option = Coin | { id: string; name: string; current_price: number };
+type Option = {
+  id: string;
+  name: string;
+  current_price: number;
+};
 
 type CustomDropdownProps = {
   options: Option[];
