@@ -1,10 +1,7 @@
 import { getLatestNews } from "@/lib/newsApi";
 import NewsClient from "@/components/NewsClient";
 import { Suspense } from "react";
-
-function NewsContent() {
-  return <NewsClient articles={[]} />;
-}
+import NewsPageSkeleton from "@/components/NewsPageSkeleton";
 
 export default async function NewsPage() {
   const articles = await getLatestNews();
@@ -15,7 +12,7 @@ export default async function NewsPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pb-2 mb-8">
           Crypto News
         </h1>
-        <Suspense fallback={<NewsContent />}>
+        <Suspense fallback={<NewsPageSkeleton />}>
           <NewsClient articles={articles} />
         </Suspense>
       </div>
