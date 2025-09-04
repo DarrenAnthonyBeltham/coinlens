@@ -45,8 +45,8 @@ export default function Search() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for a coin..."
-          className="w-full md:w-64 pl-4 pr-10 py-2 bg-slate-900 rounded-lg text-slate-200 placeholder:text-slate-400 focus:outline-none"
+          placeholder="Search..."
+          className="w-36 sm:w-64 pl-4 pr-10 py-2 bg-slate-900 rounded-lg text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none"
         />
         {query && (
           <button
@@ -58,8 +58,8 @@ export default function Search() {
         )}
       </div>
       {query && (
-        <div className="absolute top-full mt-2 w-full md:w-64 bg-slate-900 border border-slate-700/50 rounded-lg z-10 overflow-hidden">
-          {isLoading && <div className="p-4 text-slate-400">Searching...</div>}
+        <div className="absolute top-full mt-2 w-36 sm:w-64 bg-slate-900 border border-slate-700/50 rounded-lg z-10 overflow-hidden">
+          {isLoading && <div className="p-4 text-slate-400 text-sm">Searching...</div>}
           {!isLoading && results.length > 0 && (
             <ul>
               {results.slice(0, 7).map((coin) => (
@@ -67,7 +67,7 @@ export default function Search() {
                   <Link
                     href={`/coin/${coin.id}`}
                     onClick={() => setQuery("")}
-                    className="flex items-center p-3 text-white hover:bg-slate-800"
+                    className="flex items-center p-3 text-sm text-white hover:bg-slate-800"
                   >
                     <Image src={coin.thumb} alt={coin.name} width={24} height={24} className="mr-3" />
                     <span>{coin.name} ({coin.symbol})</span>
@@ -77,7 +77,7 @@ export default function Search() {
             </ul>
           )}
           {!isLoading && results.length === 0 && debouncedQuery && (
-            <div className="p-4 text-slate-400">No results found.</div>
+            <div className="p-4 text-slate-400 text-sm">No results found.</div>
           )}
         </div>
       )}

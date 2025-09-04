@@ -1,5 +1,10 @@
 import { getLatestNews } from "@/lib/newsApi";
-import NewsCard from "@/components/NewsCard";
+import NewsClient from "@/components/NewsClient";
+import { Suspense } from "react";
+
+function NewsContent() {
+  return <NewsClient articles={[]} />;
+}
 
 export default async function NewsPage() {
   const articles = await getLatestNews();
@@ -10,11 +15,9 @@ export default async function NewsPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pb-2 mb-8">
           Crypto News
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article) => (
-            <NewsCard key={article.id} article={article} />
-          ))}
-        </div>
+        <Suspense fallback={<NewsContent />}>
+          <NewsClient articles={articles} />
+        </Suspense>
       </div>
     </main>
   );
