@@ -13,7 +13,8 @@ function StatCard({ label, value, className = "" }: { label: string; value: stri
   );
 }
 
-export default async function CoinDetailPage({ params }: { params: { id: string } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function CoinDetailPage({ params }: any) {
   const [details, ohlcData] = await Promise.all([
     getCoinDetails(params.id),
     getCoinOHLC(params.id, 30),
