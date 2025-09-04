@@ -4,7 +4,7 @@ import { Coin } from "@/lib/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import SparklineChart from "./SparklineChart";
-import { useWatchlist } from "@/hooks/useWatchlist";
+import { useWatchlist } from "@/app/context/WatchlistContext";
 
 const StarIcon = ({ isFavorite }: { isFavorite: boolean }) => (
   <svg
@@ -96,7 +96,7 @@ export default function CoinTable({ coins, requestSort, sortConfig }: CoinTableP
                     <StarIcon isFavorite={isFavorite} />
                   </button>
                 </td>
-                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 text-sm text-slate-300 cursor-pointer hidden sm:table-cell">{coin.market_cap_rank}</td>
+                <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 whitespace-nowrap text-sm text-slate-300 cursor-pointer hidden sm:table-cell">{coin.market_cap_rank}</td>
                 <td onClick={() => router.push(`/coin/${coin.id}`)} className="px-2 sm:px-4 py-5 text-sm text-white cursor-pointer">
                   <div className="flex items-center">
                     <Image src={coin.image} alt={coin.name} width={28} height={28} className="mr-4 flex-shrink-0" />

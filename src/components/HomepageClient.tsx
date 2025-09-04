@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Coin } from "@/lib/types";
-import { useWatchlist } from "@/hooks/useWatchlist";
+import { useWatchlist } from "@/app/context/WatchlistContext";
 import CoinTable from "./CoinTable";
 import { useInView } from "react-intersection-observer";
 import CoinTableSkeleton from "./CoinTableSkeleton";

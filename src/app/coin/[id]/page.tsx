@@ -2,7 +2,7 @@ import CoinDetailClient from "@/components/CoinDetailClient";
 import PriceGauge from "@/components/PriceGauge";
 import InvestmentCalculator from "@/components/InvestmentCalculator";
 import { getCoinDetails, getCoinOHLC } from "@/lib/coingecko";
-import Image from "next/image";
+import CoinDetailHeader from "@/components/CoinDetailHeader";
 
 function StatCard({ label, value, className = "" }: { label: string; value: string | number; className?: string }) {
   return (
@@ -41,19 +41,8 @@ export default async function CoinDetailPage({ params }: any) {
   return (
     <main className="min-h-screen bg-black text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 fade-in-slide-up">
-          <Image src={details.image.large} alt={details.name} width={64} height={64} />
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold">
-              {details.name} <span className="text-xl sm:text-2xl text-gray-400 uppercase">{details.symbol}</span>
-            </h1>
-            <div className="flex items-baseline space-x-2">
-              <p className="text-2xl sm:text-3xl font-semibold">{price}</p>
-              <p className={parseFloat(priceChange) >= 0 ? "text-green-500" : "text-red-500"}>
-                {priceChange}%
-              </p>
-            </div>
-          </div>
+        <div className="fade-in-slide-up">
+          <CoinDetailHeader details={details} price={price} priceChange={priceChange} />
         </div>
 
         <div className="fade-in-slide-up" style={{ animationDelay: '100ms' }}>

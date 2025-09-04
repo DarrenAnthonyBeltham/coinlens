@@ -27,3 +27,12 @@ export type SearchResult = {
   symbol: string;
   thumb: string;
 };
+
+export type CoinDetails = {
+  id: string;
+  name: string;
+  symbol: string;
+  image: {
+    large: string;
+  };
+};
