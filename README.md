@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CoinLens 💎
 
-## Getting Started
+CoinLens is a sleek, modern cryptocurrency tracking application designed for enthusiasts to monitor the market in real-time. Featuring a futuristic dashboard, interactive charts, a personal watchlist, a news feed, and various analytical tools, CoinLens provides a comprehensive, all-in-one platform for exploring the world of digital assets.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Interactive Dashboard:** A futuristic homepage with a real-time market summary, a featured chart, and a trending coins widget.
+- **Advanced Charting:** In-depth charts for each coin with switchable Line/Candlestick views and multiple timeframes (24H, 7D, 30D, 1Y).
+- **Sortable Data Table:** A fully responsive table for browsing coins, featuring sorting, sparkline charts, and infinite scroll.
+- **Personal Watchlist:** Add or remove any coin to a personal watchlist that is saved in your browser.
+- **Full-Text Search:** A debounced search bar to instantly find any cryptocurrency.
+- **Crypto News Feed:** A dedicated page with the latest news from the crypto market.
+- **Analytical Tools:**
+    - **"What If?" Calculator:** See what a past investment in any coin would be worth today.
+    - **Crypto Converter:** Convert between different cryptocurrencies and fiat.
+    - **Visual Price Gauge:** See the current price in relation to its All-Time High and Low.
+- **Educational Content:** A glossary page explaining common crypto terms.
+- **Polished UI/UX:** A consistent, futuristic design with skeleton loaders and smooth animations.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Charting:** ApexCharts
+- **Data:** CoinGecko API
+- **Deployment:** Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+To get a local copy up and running, follow these simple steps.
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Node.js (v18.17 or later)
+- npm or yarn
