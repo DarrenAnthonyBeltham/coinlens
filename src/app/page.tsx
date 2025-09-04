@@ -1,5 +1,5 @@
-import CoinTable from "@/components/CoinTable";
 import FeaturedChart from "@/components/FeaturedChart";
+import HomepageClient from "@/components/HomepageClient";
 import {
   getCoinChartData,
   getGlobalMarketData,
@@ -53,12 +53,7 @@ export default async function Home() {
           <FeaturedChart data={chartData} coinName="Bitcoin" />
         </Card>
 
-        <Card>
-          <div className="p-6">
-            <h2 className="text-xl font-semibold tracking-wider text-slate-300">Top Coins</h2>
-          </div>
-          <CoinTable coins={coins} />
-        </Card>
+        <HomepageClient initialCoins={coins} />
       </div>
     </main>
   );

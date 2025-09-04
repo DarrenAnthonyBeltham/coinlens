@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useTransition } from "react";
 import CoinChart from "./CoinChart";
+import Skeleton from "./Skeleton";
 
 type Timeframe = {
   days: number;
@@ -38,9 +39,9 @@ export default function CoinDetailClient({
     }
 
     const fetchNewData = async () => {
-      const response = await fetch(`/api/chart?coinId=${coinId}&days=${days}`);
-      const data = await response.json();
-      startTransition(() => {
+      startTransition(async () => {
+        const response = await fetch(`/api/chart?coinId=${coinId}&days=${days}`);
+        const data = await response.json();
         setChartData(data);
       });
     };
@@ -59,7 +60,7 @@ export default function CoinDetailClient({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
         <h2 className="text-xl font-bold text-white">{coinName} Chart ({selectedTimeframe})</h2>
         <div className="flex space-x-2">
           {timeframes.map((tf) => (
@@ -75,9 +76,7 @@ export default function CoinDetailClient({
       </div>
       
       {isPending ? (
-        <div className="h-[400px] flex items-center justify-center bg-[#131722] rounded-lg">
-          <p className="text-slate-400">Loading new chart data...</p>
-        </div>
+        <Skeleton className="h-[400px] w-full" />
       ) : (
         <CoinChart data={chartData} coinName={coinName} />
       )}

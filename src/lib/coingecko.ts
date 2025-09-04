@@ -1,16 +1,14 @@
 import { Coin } from "./types";
 
-export async function getMarketData(): Promise<Coin[]> {
+export async function getMarketData(page: number = 1): Promise<Coin[]> {
   try {
     const response = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=true", 
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=${page}&sparkline=true`,
       { next: { revalidate: 60 } }
     );
-
     if (!response.ok) {
       throw new Error("Failed to fetch market data");
     }
-
     const data: Coin[] = await response.json();
     return data;
   } catch (error) {
@@ -105,6 +103,23 @@ export async function searchCoins(query: string) {
     }
     const data = await response.json();
     return data.coins; 
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getCoinsByIds(ids: string) {
+  if (!ids) return [];
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&sparkline=true`,
+      { next: { revalidate: 60 } }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch coin data by IDs");
+    }
+    return await response.json();
   } catch (error) {
     console.error(error);
     return [];

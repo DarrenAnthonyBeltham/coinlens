@@ -1,4 +1,4 @@
-import CoinDetailClient from "@/components/CoinDataClient";
+import CoinDetailClient from "@/components/CoinDetailClient";
 import { getCoinDetails, getCoinOHLC } from "@/lib/coingecko";
 import Image from "next/image";
 
@@ -44,14 +44,14 @@ export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
   return (
     <main className="min-h-screen bg-black text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <Image src={details.image.large} alt={details.name} width={64} height={64} />
           <div>
-            <h1 className="text-4xl font-bold">
-              {details.name} <span className="text-2xl text-gray-400 uppercase">{details.symbol}</span>
+            <h1 className="text-3xl sm:text-4xl font-bold">
+              {details.name} <span className="text-xl sm:text-2xl text-gray-400 uppercase">{details.symbol}</span>
             </h1>
             <div className="flex items-baseline space-x-2">
-              <p className="text-3xl font-semibold">{price}</p>
+              <p className="text-2xl sm:text-3xl font-semibold">{price}</p>
               <p className={parseFloat(priceChange) >= 0 ? "text-green-500" : "text-red-500"}>
                 {priceChange}%
               </p>
@@ -59,7 +59,6 @@ export default async function CoinDetailPage({ params }: CoinDetailPageProps) {
           </div>
         </div>
 
-        {/* Use the new interactive component here */}
         <CoinDetailClient
           coinId={params.id}
           initialChartData={ohlcData}
