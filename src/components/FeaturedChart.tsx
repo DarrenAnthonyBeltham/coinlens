@@ -21,6 +21,14 @@ type FeaturedChartProps = {
   coinName: string;
 };
 
+type TooltipProps = {
+  active?: boolean;
+  payload?: {
+    value: number;
+  }[];
+  label?: number;
+};
+
 const fmtUSD = (n: number, max = 2) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -36,15 +44,7 @@ const neatUSD = (n: number) => {
   return fmtUSD(n, 6);
 };
 
-function TooltipBox({
-  active,
-  payload,
-  label,
-}: {
-  active?: boolean;
-  payload?: any[];
-  label?: number;
-}) {
+function TooltipBox({ active, payload, label }: TooltipProps) {
   if (!active || !payload?.length || typeof label !== "number") return null;
   const d = new Date(label);
   const price = Number(payload[0].value);
@@ -73,7 +73,7 @@ export default function FeaturedChart({ data, coinName }: FeaturedChartProps) {
   const pct = last && prev ? (delta / prev.price) * 100 : 0;
 
   const domain = useMemo(() => {
-    if (!data.length) return ["auto", "auto"] as [any, any];
+    if (!data.length) return ["auto", "auto"];
     const min = Math.min(...data.map((d) => d.price));
     const max = Math.max(...data.map((d) => d.price));
     const pad = (max - min) * 0.06 || max * 0.02 || 1;
@@ -132,7 +132,7 @@ export default function FeaturedChart({ data, coinName }: FeaturedChartProps) {
             />
 
             <YAxis
-              domain={domain as any}
+              domain={domain}
               tickFormatter={(v) => neatUSD(Number(v))}
               tick={{ fill: "#94a3b8", fontSize: 12 }}
               axisLine={false}

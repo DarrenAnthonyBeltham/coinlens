@@ -19,6 +19,7 @@ export default function CustomDropdown({ options, value, onChange }: CustomDropd
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useOnClickOutside(dropdownRef as any, () => setIsOpen(false));
 
   const handleSelect = (option: Option) => {
